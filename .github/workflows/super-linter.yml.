@@ -1,0 +1,24 @@
+name: Lint Code Base
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full git history is available for detecting changes.
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_HTML: true  # This environment variable enables the HTML linter.
+          VALIDATE_ALL_CODEBASE: false  # Set to true to lint the entire codebase; false to only lint changed files.
+          DEFAULT_BRANCH: "main"  # The default branch for comparison.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
